@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="draftsState">
+      <draftsState>
+        <option name="requests">
+          <list>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;name&quot;: &quot;name_kQ19&quot;,&#10;  &quot;description&quot;: &quot;description_gJ84&quot;,&#10;  &quot;price&quot;: 35.58&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="953f425a-7625-4578-b77e-5f339c508ba3" />
+              <option name="method" value="GET" />
+              <option name="name" value="Draft" />
+              <option name="url" value="http://localhost:8010/api/v1/product" />
+            </requestState>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;orderLineItemsDtos&quot;: [&#10;    {&#10;      &quot;skucode&quot;: &quot;skucode_zH35&quot;,&#10;      &quot;price&quot;: 70.29,&#10;      &quot;quantity&quot;: 409&#10;    }&#10;  ]&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="4883ef48-2173-48c9-8ca5-16035ebf8d32" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft 1" />
+              <option name="url" value="http://localhost:8020/api/v1/order" />
+            </requestState>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;orderLineItemsDtos&quot;: [&#10;    {&#10;      &quot;skuCode&quot;:&quot;lenovo Yog&quot;,&#10;      &quot;price&quot;: 1400,&#10;      &quot;quantity&quot;: 4&#10;    },&#10;    {&#10;      &quot;skuCode&quot;:&quot;lenovo Yog&quot;,&#10;      &quot;price&quot;: 1400,&#10;      &quot;quantity&quot;: 2&#10;    }&#10;  ]&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="2f5c87ef-f6f0-416c-8a00-e40860d03905" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft 2" />
+              <option name="url" value="http://localhost:8020/api/v1/order" />
+            </requestState>
+          </list>
+        </option>
+      </draftsState>
+    </option>
+    <option name="id" value="de9c2cd5-d3f0-4e30-84d3-6661ac9748a6" />
+  </component>
+</project>
