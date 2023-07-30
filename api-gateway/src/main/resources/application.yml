@@ -1,0 +1,45 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: api-gateway
+#defining routes of our services
+  cloud:
+    gateway:
+      routes:
+        - id: product
+          uri: lb://product #  (Load balanced URL for the "products" service)
+          predicates:
+            - Path=/api/v1/products # This predicate matches requests with the path /api/v1/products and routes them to the "products" service.
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/api/v1/order
+        - id: inventory
+          uri: lb://inventory
+          predicates:
+            - Path=/api/v1/inventories
+#re-routing the eureka server port to be accessible through the api gateway
+        - id: eureka-server
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/web
+          filters:
+            - SetPath=/
+#loading the static files(CSS) of the eureka server
+        - id: eureka-server-static
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/**
+
+# increase the logging level -> to understand what is going on behind the sciences
+#  RouteDefinitionLocator is responsible for handle the routes for a request
+logging:
+  level:
+    root: info
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: Info
+    org.springframework.cloud.gateway: TRACE
+
