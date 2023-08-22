@@ -13,10 +13,74 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
   application:
     name: order
+
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1.0
+#KAFKA Properties
+  kafka:
+    bootstrap-servers: localhost:29092
+    template:
+      default-topic: notificationTopic
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping:
+                event: com/iyex/order/event/OrderPlacedEvent
+
+
 server:
   port: 8020
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka:eureka@localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventory:
+        registerHealthIndicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+#        todo reason for commenting out Unable to make private java.time.Duration(long,int) accessible: module java.base does not "opens java.time" to unnamed module
+#      # default value 60 s
+#        wait-duration-in-open-state:
+#          seconds: 5
+#        maybe try this
+#        wait-duration-in-open-state:PT5S
+
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+  timelimiter:
+    instances:
+      inventory:
+        timeout-duration: 3s
+#          seconds: 3
+  retry:
+    instances:
+      inventory:
+        max-attempts: 3
+        wait-duration: 5s
+#          seconds: 5

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
+        <module name="notification" />
         <module name="product" />
         <module name="inventory" />
         <module name="eureka-server" />
@@ -24,6 +25,7 @@
       <module name="discovery" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="inventory" options="-parameters" />
+      <module name="notification" options="-parameters" />
       <module name="order" options="-parameters" />
       <module name="product" options="-parameters" />
     </option>

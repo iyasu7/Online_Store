@@ -1,21 +1,49 @@
-services:
-  mysql:
-    container_name: mysql
-    image: mysql
-    #    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      - MYSQL_ROOT_PASSWORD=mySQL@8080
-      - MYSQL_USER=root
-    volumes:
-      - mysql:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - mysql
-    restart: unless-stopped
 networks:
   mysql:
     driver: bridge
 
 volumes:
   mysql:
+
+#Kafka confulent properties
+version: '3'
+services:
+#  mysql:
+#    container_name: mysql
+#    image: mysql
+#    #    command: --default-authentication-plugin=mysql_native_password
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=mySQL@8080
+#      - MYSQL_USER=root
+#    volumes:
+#      - mysql:/var/lib/mysql
+#    ports:
+#      - "3306:3306"
+#    networks:
+#      - mysql
+#    restart: unless-stopped
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1

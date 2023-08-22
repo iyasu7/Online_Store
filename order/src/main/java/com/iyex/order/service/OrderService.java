@@ -5,9 +5,11 @@ import com.iyex.order.domain.Orders;
 import com.iyex.order.dto.InventoryDto;
 import com.iyex.order.dto.OrderLineItemsDto;
 import com.iyex.order.dto.OrderRequest;
+import com.iyex.order.event.OrderPlacedEvent;
 import com.iyex.order.repository.OrderRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,7 +26,8 @@ public class OrderService {
 
     private final OrderRepo orderRepo;
     private final WebClient.Builder webClientBuilder;
-    public void placeOrder(OrderRequest orderRequest){
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+    public String placeOrder(OrderRequest orderRequest){
         Orders order = new Orders();
         order.setOrderNumber(UUID.randomUUID().toString());
 
@@ -61,6 +64,8 @@ public class OrderService {
         log.info("all in stock :"+allInStock);
         if (allInStock){
         orderRepo.save(order);
+        kafkaTemplate.send("notificationTopic",new OrderPlacedEvent(order.getOrderNumber()));
+        return "order made successfully";
         }else {
             log.info("exc Hi");
             //TODO To return a list of Items that are out of stock;
